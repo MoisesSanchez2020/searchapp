@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yelp Search</title>
+    <style>
+        /* Styles for the businesses display */
+        .business {
+            border: 1px solid #e0e0e0;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+        .business img {
+            margin: 10px 0;
+            border-radius: 8px;
+            max-width: 200px;
+        }
+        .business h2 {
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .business p {
+            margin: 8px 0;
+            color: #666;
+        }
+        .business a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 15px;
+            background-color: #0073e6;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .business a:hover {
+            background-color: #005bb5;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Yelp Business Search</h2>
+
+    <!-- Inputs for search criteria -->
+    <label for="term">Search for:</label>
+    <input type="text" id="term" placeholder="e.g., restaurant, barbershop">
+    
+    <label for="location">Location:</label>
+    <input type="text" id="location" placeholder="e.g., San Francisco, CA">
+
+    <!-- Button to trigger the search -->
+    <button id="fetchDataBtn" onclick="fetchData()">Fetch Data</button>
+    
+    <!-- Display area for the fetched data -->
+    <div id="apiDataDisplay"></div>
+
+    <script>
+        function fetchData() {
+            var term = document.getElementById("term").value;
+            var location = document.getElementById("location").value;
+
+            // Replace with your endpoint and API Key
+            var endpoint = `YOUR_ENDPOINT_HERE?term=${term}&location=${location}`;
+            var apiKey = "YOUR_API_KEY_HERE";
+
+            fetch(endpoint, {
+                headers: {
+                    'Authorization': `Bearer ${apiKey}`
+                }
+            })
+            .then(response => response.json())
+            .then(data => displayBusinesses(data))
+            .catch(error => console.error('Error:', error));
+        }
+
+       function displayBusinesses(data) {
+            var output = "";
+            for (var i = 0; i < data.businesses.length; i++) {
+                var business = data.businesses[i];
+                output += `
+                    <div class="business">
+                        <h2>${business.name}</h2>
+                        <p>Address: ${business.location.display_address.join(', ')}</p>
+                        <p>Phone: ${business.display_phone}</p>
+                        <a href="${business.url}" target="_blank">Visit on Yelp</a>
+                    </div>
+                `;
+            }
+            
+            document.getElementById("apiDataDisplay").innerHTML = output;
+        }
+    </script>
+
+    <!-- Include the JavaScript -->
+    <script src="script.js"></script>
+</body>
+
+</html>

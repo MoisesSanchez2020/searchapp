@@ -4,7 +4,8 @@ const cors = require('cors');
 const path = require('path'); // <-- Add this
 
 const app = express();
-const PORT = 3002;
+const PORT = process.env.PORT || 3002;
+
 
 const API_KEY = 'Ek8zOvr4GbmeYX5mIVVuxEIcd9Xphhcm_KujQv_yiZsvB9ZcjSJ-XRlKqw0v0YHXuaUFZN25M7mvuSt6NHS644Af9cBrhSiAF5BtncZPZTvOvoXQCuogcMmU2DFEZXYx';
 const YELP_ENDPOINT = 'https://api.yelp.com/v3/businesses/search';
